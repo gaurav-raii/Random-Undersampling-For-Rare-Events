@@ -4,7 +4,7 @@ Created on Fri Mar  8 21:14:12 2019
 
 @author: gaura
 """
-
+#importing all the required libraries
 import pandas as pd
 import numpy as np
 from AdvancedAnalytics import ReplaceImputeEncode
@@ -15,22 +15,25 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn import preprocessing
 import math
 
+#importing the data as a pandas data frame
 df=pd.read_excel("CreditData_RareEvent.xlsx")
 
+#defining a function to encode categorical variables
 def my_encoder(z):
     for i in z:
         a=df[i][df[i].notnull()].unique()
         for col_name in a:
             df[i+'_'+str(col_name)]= df[i].apply(lambda x: 1 if x==col_name else 0)
             
-categorical = ['checking','coapp','depends','employed','existcr','foreign','history','housing','installp','job','marital','other','property','resident','savings','telephon']
-my_encoder(categorical)
-
+#Defining a function to scale the interval variables
 def my_scaler(z):
     for i in z:
         df[i]= df[i].apply(lambda z: (z-np.mean(df[i]))/ np.std(df[i]))
 
-interval_Columns= ['age','duration']
+#encoding interval and categorical attributes using the above defined functions.
+categorical = ['checking','coapp','depends','employed','existcr','foreign','history','housing','installp','job','marital','other','property','resident','savings','telephon']
+interval_Columns= ['age','duration']        
+my_encoder(categorical)
 my_scaler(interval_Columns)
 
 df= df.drop(columns=categorical)
