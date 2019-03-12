@@ -36,6 +36,7 @@ interval_Columns= ['age','duration']
 my_encoder(categorical)
 my_scaler(interval_Columns)
 
+#removing the old columns from the dataframe.
 df= df.drop(columns=categorical)
 X = np.array(df[df.columns[df.columns!='good_bad']])
 Y = df[['good_bad']]
@@ -43,9 +44,9 @@ Y['good_bad']=Y['good_bad'].map({'good':1,'bad':0})
 Y= np.asarray(Y)
 
 fp_cost = np.array(df['amount'])
-fn_cost = np.array(0.15*df['amount'])
-np.random.seed(12345)
+fn_cost = np.array(0.15*df['amount'])    #false negative's cost is kept 0.15 times of false positives which makes FP more expensive than Fn
 
+np.random.seed(12345)
 max_seed= 2**30 - 1
 rand_val = np.random.randint(1,high=max_seed ,size=10)
 
